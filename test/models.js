@@ -1,4 +1,7 @@
+process.env.NODE_ENV = 'test'
+
 var test = require('ava')
+
 var TargetModel = require('../lib/models/target')
 
 var target = {
@@ -23,7 +26,15 @@ test.serial.cb('Should create target', function (t) {
   })
 })
 
-test.serial.cb('Should get all targes', function (t) {
+test.serial.cb('Should not create target with existing id',
+  function (t) {
+    TargetModel.createTarget(target, function (err) {
+      t.truthy(err, 'Should error')
+      t.end()
+    })
+  })
+
+test.serial.cb('Should get all targets', function (t) {
   TargetModel.getAllTargets(function (err, tagets) {
     t.falsy(err, 'Should not error')
 
@@ -42,7 +53,7 @@ test.serial.cb('Should get target by id', function (t) {
 })
 
 test.serial.cb('Should update target by id', function (t) {
-  var updateField = { url: 'http://example-updated.com' }
+  const updateField = { url: 'http://example-updated.com' }
   TargetModel.updateTargetById('1', updateField, function (err) {
     t.falsy(err, 'Should not error')
 
@@ -54,3 +65,14 @@ test.serial.cb('Should update target by id', function (t) {
     })
   })
 })
+
+test.serial.cb('Should not update target without existing target id',
+  function (t) {
+    const nonExistentId = '19832389'
+    const updateField = { url: 'http://example-updated.com' }
+    TargetModel.updateTargetById(nonExistentId, updateField, function (err) {
+      t.truthy(err, 'Should error')
+
+      t.end()
+    })
+  })
