@@ -31,7 +31,8 @@
     "productionize": "^4.1.0",
     "redis": "^3.0.2",
     "req-logger": "^2.0.0",
-    "send-data": "^8.0.0"
+    "send-data": "^8.0.0",
+    "validate": "^5.1.0"
   },
   "repository": {
     "type": "git",
